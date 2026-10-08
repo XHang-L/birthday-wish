@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#05060f">
+<title>致最好的你 · 生日快乐</title>
+
+<!--
+=====================================================================
+  可修改区（改这几行就够了）
+=====================================================================
+  1. 名字      → 搜  name:
+  2. 生日日期  → 搜  birthday:
+  3. 正文句子  → 搜  lines:
+  4. 落款      → 搜  from:
+  5. 照片      → 把图片命名 photo.jpg 放在 index.html 同目录即可自动替换占位框
+=====================================================================
+-->
+
+<style>
+/* ============ 基础 ============ */
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#05060f;
+  --ink:#f2f5ff;
+  --ink-dim:rgba(242,245,255,.62);
+  --a1:#7b5cff;   /* 极光紫 */
+  --a2:#2ad4c8;   /* 极光青 */
+  --a3:#ff5f9e;   /* 极光粉 */
+  --gold:#ffd79a;
+}
+html,body{height:100%}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Source Han Sans SC",system-ui,sans-serif;
+  overflow-x:hidden;
+  line-height:1.85;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+#stars,#fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none}
+#stars{z-index:0}
+#fx{z-index:60}
+
+/* ============ 开场 ============ */
+#gate{
+  position:fixed;inset:0;z-index:100;
+  background:radial-gradient(120% 90% at 50% 15%,#0d1030 0%,#05060f 60%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:30px;text-align:center;padding:34px;
+  transition:opacity 1s ease, visibility 1s;
+}
+#gate.gone{opacity:0;visibility:hidden}
+#gate .mini{font-size:11px;letter-spacing:.42em;color:var(--ink-dim);text-transform:uppercase}
+#gate .ring{
+  width:112px;height:112px;border-radius:50%;
+  border:1px solid rgba(255,215,154,.45);
+  display:flex;align-items:center;justify-content:center;
+  font-size:38px;
+  box-shadow:0 0 40px rgba(123,92,255,.35),inset 0 0 30px rgba(42,212,200,.12);
+  animation:beat 2.6s ease-in-out infinite;
+}
+@keyframes beat{0%,100%{transform:scale(1)}12%{transform:scale(1.09)}24%{transform:scale(1)}36%{transform:scale(1.05)}}
+#gate h2{font-size:20px;font-weight:300;letter-spacing:.16em}
+#gate .open{
+  border:1px solid rgba(255,255,255,.28);
+  background:rgba(255,255,255,.05);
+  backdrop-filter:blur(8px);
+  color:var(--ink);font-family:inherit;font-size:14px;letter-spacing:.24em;
+  padding:14px 34px;border-radius:999px;cursor:pointer;
+  transition:.35s;
+}
+#gate .open:active{transform:scale(.95);background:rgba(255,255,255,.12)}
+#gate .tip{font-size:11px;color:rgba(242,245,255,.35);letter-spacing:.1em}
+
+/* ============ 极光 ============ */
+.aurora{position:fixed;z-index:1;pointer-events:none;filter:blur(60px);opacity:.5;will-change:transform}
+.au1{width:120vw;height:70vh;left:-30vw;top:-22vh;background:radial-gradient(closest-side,rgba(123,92,255,.75),transparent 70%);animation:drift1 22s ease-in-out infinite}
+.au2{width:110vw;height:62vh;right:-34vw;top:6vh;background:radial-gradient(closest-side,rgba(42,212,200,.5),transparent 70%);animation:drift2 27s ease-in-out infinite}
+.au3{width:100vw;height:58vh;left:-18vw;bottom:-20vh;background:radial-gradient(closest-side,rgba(255,95,158,.42),transparent 70%);animation:drift3 31s ease-in-out infinite}
+@keyframes drift1{0%,100%{transform:translate(0,0) rotate(0)}50%{transform:translate(14vw,10vh) rotate(24deg)}}
+@keyframes drift2{0%,100%{transform:translate(0,0) rotate(0)}50%{transform:translate(-16vw,8vh) rotate(-20deg)}}
+@keyframes drift3{0%,100%{transform:translate(0,0)}50%{transform:translate(10vw,-12vh)}}
+.veil{position:fixed;inset:0;z-index:2;pointer-events:none;background:linear-gradient(180deg,rgba(5,6,15,.62) 0%,transparent 24%,transparent 72%,rgba(5,6,15,.85) 100%)}
+
+/* ============ 主体 ============ */
+main{position:relative;z-index:3;padding:0 24px;max-width:640px;margin:0 auto}
+section{padding:100px 0;text-align:center}
+
+/* 进场动画 */
+.rv{opacity:0;transform:translateY(34px);transition:opacity 1s cubic-bezier(.2,.8,.2,1),transform 1s cubic-bezier(.2,.8,.2,1)}
+.rv.in{opacity:1;transform:none}
+
+.eyebrow{font-size:10px;letter-spacing:.44em;color:var(--ink-dim);text-transform:uppercase;margin-bottom:26px}
+
+/* HERO */
+#hero{padding-top:52vh}
+.hero-en{
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:clamp(34px,11.5vw,62px);
+  line-height:1.02;letter-spacing:.04em;
+  background:linear-gradient(180deg,#fff 8%,var(--gold) 62%,rgba(255,215,154,.5) 100%);
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent;
+  filter:drop-shadow(0 6px 30px rgba(255,215,154,.22));
+}
+.hero-en span{display:inline-block;opacity:0;transform:translateY(28px) rotate(6deg);animation:pop .9s cubic-bezier(.2,.9,.25,1) forwards}
+@keyframes pop{to{opacity:1;transform:none}}
+.hero-cn{
+  margin-top:20px;font-size:clamp(15px,4.6vw,19px);font-weight:300;
+  letter-spacing:.5em;text-indent:.5em;color:rgba(255,255,255,.82);
+}
+.nameplate{
+  margin-top:44px;display:inline-flex;flex-direction:column;align-items:center;gap:12px;
+  padding:22px 44px;border-radius:26px;
+  border:1px solid rgba(255,255,255,.14);
+  background:linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,.02));
+  backdrop-filter:blur(14px);
+  box-shadow:0 20px 60px rgba(0,0,0,.4);
+}
+.nameplate .k{font-size:10px;letter-spacing:.4em;color:var(--ink-dim)}
+.nameplate .n{font-size:clamp(26px,8vw,38px);font-weight:400;letter-spacing:.14em;text-shadow:0 0 26px rgba(255,215,154,.35)}
+.scrollhint{margin-top:56px;font-size:10px;letter-spacing:.34em;color:rgba(242,245,255,.32);animation:bob 2.4s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(8px);opacity:1}}
+
+/* 倒计时 */
+.cd{display:flex;justify-content:center;gap:10px;margin-top:34px;flex-wrap:wrap}
+.cd .cell{
+  min-width:70px;padding:16px 8px;border-radius:18px;
+  background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.1);
+  backdrop-filter:blur(10px);
+}
+.cd .v{font-family:Georgia,serif;font-size:30px;color:var(--gold);line-height:1}
+.cd .l{margin-top:8px;font-size:9px;letter-spacing:.24em;color:var(--ink-dim)}
+.cd .today{font-size:20px;color:var(--gold);letter-spacing:.2em;padding:20px 0}
+
+/* 照片卡 */
+.photo-wrap{position:relative;width:min(78vw,300px);margin:0 auto}
+.photo-halo{
+  position:absolute;inset:-16px;border-radius:50%;
+  background:conic-gradient(from 0deg,rgba(255,215,154,0),rgba(123,92,255,.85),rgba(42,212,200,.8),rgba(255,95,158,.75),rgba(255,215,154,0));
+  filter:blur(14px);opacity:.75;
+  animation:spin 14s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.photo-frame{
+  position:relative;width:100%;aspect-ratio:1/1;border-radius:50%;overflow:hidden;
+  border:1px solid rgba(255,255,255,.2);
+  background:rgba(255,255,255,.04);
+  box-shadow:0 26px 70px rgba(0,0,0,.55);
+}
+.photo-frame img{width:100%;height:100%;object-fit:cover;display:block}
+/* 占位样式（没有 photo.jpg 时显示） */
+.photo-ph{
+  position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;
+  background:repeating-linear-gradient(45deg,rgba(255,255,255,.035) 0 12px,transparent 12px 24px);
+  text-align:center;padding:20px;
+}
+.photo-ph .ico{font-size:34px;opacity:.6}
+.photo-ph .t{font-size:13px;letter-spacing:.22em;color:var(--ink-dim)}
+.photo-ph .s{font-size:10px;letter-spacing:.12em;color:rgba(242,245,255,.3)}
+.photo-cap{margin-top:30px;font-size:13px;letter-spacing:.3em;color:var(--ink-dim)}
+.secret{
+  margin-top:18px;font-size:13px;line-height:2;color:var(--gold);
+  min-height:26px;opacity:0;transform:translateY(6px);transition:.7s;
+}
+.secret.on{opacity:1;transform:none}
+.press-tip{margin-top:14px;font-size:10px;letter-spacing:.2em;color:rgba(242,245,255,.25)}
+
+/* 文字 */
+.letter p{
+  font-size:clamp(15px,4.4vw,17px);font-weight:300;color:rgba(255,255,255,.86);
+  margin-bottom:26px;letter-spacing:.04em;
+}
+.letter p.em{color:var(--gold);font-size:clamp(17px,5vw,20px);letter-spacing:.08em}
+.divider{display:flex;align-items:center;justify-content:center;gap:14px;margin:8px 0 40px}
+.divider i{display:block;width:5px;height:5px;border-radius:50%;background:var(--gold);opacity:.7}
+.divider b{display:block;width:76px;height:1px;background:linear-gradient(90deg,transparent,rgba(255,215,154,.6),transparent)}
+
+/* 许愿按钮 */
+.wish-btn{
+  margin-top:12px;border:0;cursor:pointer;font-family:inherit;
+  font-size:15px;letter-spacing:.28em;text-indent:.28em;color:#1a1206;
+  padding:19px 46px;border-radius:999px;
+  background:linear-gradient(135deg,#ffe6bb,var(--gold) 55%,#f0b878);
+  box-shadow:0 16px 46px rgba(255,190,110,.32);
+  transition:transform .25s, box-shadow .25s, opacity .6s;
+}
+.wish-btn:active{transform:scale(.94);box-shadow:0 8px 22px rgba(255,190,110,.26)}
+.wish-btn:disabled{opacity:.42;box-shadow:none;cursor:default}
+
+/* 结局卡 */
+#final{opacity:0;visibility:hidden;transition:opacity 1.3s, visibility 1.3s;padding-bottom:120px}
+#final.on{opacity:1;visibility:visible}
+.big{
+  font-size:clamp(28px,9vw,44px);letter-spacing:.14em;line-height:1.3;
+  background:linear-gradient(180deg,#fff,var(--gold));
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;
+}
+.from{margin-top:40px;font-size:13px;color:var(--ink-dim);letter-spacing:.2em}
+.stamp{
+  margin-top:34px;width:96px;height:96px;margin-inline:auto;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:Georgia,serif;font-size:11px;letter-spacing:.12em;line-height:1.5;
+  color:rgba(255,95,158,.9);border:1px solid rgba(255,95,158,.4);
+  transform:rotate(-11deg);
+}
+
+/* 音乐按钮 */
+#music{
+  position:fixed;right:16px;top:16px;z-index:80;
+  width:42px;height:42px;border-radius:50%;cursor:pointer;
+  border:1px solid rgba(255,255,255,.16);background:rgba(10,12,30,.5);
+  backdrop-filter:blur(10px);color:var(--ink);font-size:16px;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;transition:opacity .8s, transform .25s;
+}
+#music.show{opacity:1}
+#music:active{transform:scale(.9)}
+</style>
+</head>
+
+<body>
+
+<!-- 背景层 -->
+<canvas id="stars"></canvas>
+<div class="aurora au1"></div>
+<div class="aurora au2"></div>
+<div class="aurora au3"></div>
+<div class="veil"></div>
+<canvas id="fx"></canvas>
+
+<button id="music" aria-label="音乐开关">♪</button>
+
+<!-- 开场 -->
+<div id="gate">
+  <div class="mini">a letter from the stars</div>
+  <div class="ring">✦</div>
+  <h2>有一句话，我在心里存了很久</h2>
+  <button class="open" id="openBtn">轻 触 拆 开</button>
+  <div class="tip">建议戴上耳机 · 里面有音乐</div>
+</div>
+
+<!-- 主体 -->
+<main id="main" style="opacity:0;transition:opacity 1.2s">
+
+  <!-- HERO -->
+  <section id="hero" class="rv">
+    <div class="eyebrow">for the one that matters most</div>
+    <h1 class="hero-en" id="heroEn"></h1>
+    <div class="hero-cn">生 日 快 乐</div>
+    <div class="nameplate">
+      <div class="k">TO</div>
+      <div class="n" id="nameShow">她</div>
+    </div>
+    <div class="cd" id="cd"></div>
+    <div class="scrollhint">向下滑动 · 往下看 ↓</div>
+  </section>
+
+  <!-- 照片 -->
+  <section class="rv">
+    <div class="eyebrow">the centre of my universe</div>
+    <div class="photo-wrap">
+      <div class="photo-halo"></div>
+      <div class="photo-frame" id="photoFrame">
+        <!-- 有 photo.jpg 就显示照片，没有就显示占位 -->
+        <div class="photo-ph" id="photoPh">
+          <div class="ico">◎</div>
+          <div class="t">PHOTO</div>
+          <div class="s">放 photo.jpg 在同目录<br>即自动替换</div>
+        </div>
+      </div>
+    </div>
+    <div class="photo-cap">世 界 上 最 亮 的 那 颗 星</div>
+    <div class="press-tip">— 按 住 她 的 照 片 —</div>
+    <div class="secret" id="secret"></div>
+  </section>
+
+  <!-- 文字 -->
+  <section class="rv letter">
+    <div class="eyebrow">a few words</div>
+    <div class="divider"><b></b><i></i><b></b></div>
+    <div id="lines"></div>
+  </section>
+
+  <!-- 许愿 -->
+  <section class="rv">
+    <div class="eyebrow">make a wish</div>
+    <button class="wish-btn" id="wishBtn">许 个 愿 吧</button>
+  </section>
+
+  <!-- 结局 -->
+  <section id="final">
+    <div class="big" id="finalBig">生日快乐</div>
+    <div class="from" id="finalFrom"></div>
+    <div class="stamp">HAPPY<br>BIRTHDAY<br>✦</div>
+  </section>
+</main>
+
+<script>
+/* =========================================================
+   ★★★ 可修改区 ★★★
+   ========================================================= */
+const CONFIG = {
+  name:      "她",                 // 她的昵称 / 名字
+  birthday:  "2026-10-18",         // 生日日期（年-月-日）
+  from:      "—— 你的名字",         // 落款
+  secretTxt: "其实我一直都在。",     // 长按照片出现的彩蛋
+  finalTxt:  "新的一岁，也要开心。", // 结尾大字
+  lines: [                          // 正文
+    "有些话当面说会紧张，写下来反而更诚实。",
+    "认识你，是我这一年里最不后悔的决定。",
+    "愿你被这个世界温柔对待，也愿你记得自己的光。",
+    "生日快乐。我很高兴是你朋友。"
+  ]
+};
+/* ========================================================= */
+
+const $ = s => document.querySelector(s);
+const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* ---------- HERO 逐字动画 ---------- */
+(function(){
+  const el = $("#heroEn");
+  [... "HAPPY BIRTHDAY"].forEach((ch,i)=>{
+    if(ch===" "){ const s=document.createElement("span"); s.innerHTML="&nbsp;"; el.appendChild(s); return; }
+    const s=document.createElement("span");
+    s.textContent=ch; s.style.animationDelay=(0.06*i+0.15)+"s";
+    el.appendChild(s);
+  });
+})();
+
+/* ---------- 文本注入 ---------- */
+$("#nameShow").textContent = CONFIG.name;
+$("#finalFrom").textContent = CONFIG.from;
+$("#finalBig").textContent = CONFIG.finalTxt;
+$("#secret").textContent = CONFIG.secretTxt;
+$("#lines").innerHTML = CONFIG.lines.map((t,i)=>
+  `<p class="${i===CONFIG.lines.length-1?"em":""}">${t}</p>`).join("");
+
+/* ---------- 照片：存在则用照片 ---------- */
+(function(){
+  const img = new Image();
+  img.onload = () => { const f=$("#photoFrame"); f.innerHTML=""; img.style.width="100%"; img.style.height="100%"; img.style.objectFit="cover"; f.appendChild(img); };
+  img.onerror = () => {};
+  img.src = "photo.jpg";
+})();
+
+/* ---------- 倒计时 ---------- */
+(function(){
+  const box = $("#cd");
+  const target = new Date(CONFIG.birthday + "T00:00:00");
+  const pad = n => String(n).padStart(2,"0");
+  function draw(){
+    const now = new Date(); let d = target - now;
+    if(d < 0){
+      const y = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      const t2 = new Date(y.getFullYear()+ (target < y ? 1 : 0), target.getMonth(), target.getDate());
+      d = t2 - now;
+    }
+    const days=Math.floor(d/864e5), h=Math.floor(d%864e5/36e5), m=Math.floor(d%36e5/6e4), s=Math.floor(d%6e4/1e3);
+    if(days===0 && h<1){ box.innerHTML = `<div class="today">就 是 今 天 · 快 许 愿</div>`; return; }
+    box.innerHTML = [[days,"DAYS"],[h,"HRS"],[m,"MIN"],[s,"SEC"]]
+      .map(([v,l])=>`<div class="cell"><div class="v">${v<10?pad(v):v}</div><div class="l">${l}</div></div>`).join("");
+  }
+  draw(); setInterval(draw,1000);
+})();
+
+/* ---------- 星空 + 流星 ---------- */
+(function(){
+  const cv=$("#stars"), cx=cv.getContext("2d");
+  let W,H,stars=[],shooters=[];
+  function size(){ const d=Math.min(devicePixelRatio,2); W=cv.width=innerWidth*d; H=cv.height=innerHeight*d; cv.style.width=innerWidth+"px"; cv.style.height=innerHeight+"px"; cx.setTransform(d,0,0,d,0,0); W=innerWidth; H=innerHeight; }
+  function init(){
+    size();
+    stars = Array.from({length: Math.min(200, Math.round(W*H/9000))},()=>({
+      x:Math.random()*W, y:Math.random()*H, r:Math.random()*1.25+.2,
+      a:Math.random(), s:Math.random()*.02+.004, d:Math.random()>.7
+    }));
+  }
+  function shoot(){
+    if(reduced) return;
+    const fromTop = Math.random()>.35;
+    shooters.push({
+      x: fromTop ? Math.random()*W*.7 : Math.random()*W,
+      y: fromTop ? -20 : Math.random()*H*.35,
+      vx: -(2.6+Math.random()*2.2), vy: fromTop ? (1.9+Math.random()*1.4) : (0.4+Math.random()*.5),
+      life:1, len: 90+Math.random()*110
+    });
+  }
+  let t=0;
+  function loop(){
+    cx.clearRect(0,0,W,H);
+    for(const s of stars){
+      s.a += s.s;
+      const al = .25 + Math.abs(Math.sin(s.a))*.7;
+      cx.beginPath(); cx.arc(s.x,s.y,s.r,0,7);
+      cx.fillStyle = s.d ? `rgba(255,215,154,${al})` : `rgba(226,236,255,${al*.85})`;
+      cx.fill();
+      if(s.d && s.r>1){ cx.beginPath(); cx.arc(s.x,s.y,s.r*3.4,0,7); cx.fillStyle=`rgba(255,215,154,${al*.07})`; cx.fill(); }
+    }
+    t++;
+    if(t%170===0) shoot();
+    shooters = shooters.filter(m=>{
+      m.x+=m.vx; m.y+=m.vy; m.life-=.012;
+      const g=cx.createLinearGradient(m.x,m.y,m.x-m.vx*m.len,m.y-m.vy*m.len);
+      g.addColorStop(0,`rgba(255,255,255,${m.life*.9})`);
+      g.addColorStop(1,"rgba(255,255,255,0)");
+      cx.strokeStyle=g; cx.lineWidth=1.6; cx.lineCap="round";
+      cx.beginPath(); cx.moveTo(m.x,m.y); cx.lineTo(m.x-m.vx*m.len,m.y-m.vy*m.len); cx.stroke();
+      return m.life>0;
+    });
+    requestAnimationFrame(loop);
+  }
+  addEventListener("resize",init);
+  init(); loop();
+})();
+
+/* ---------- 滚动进场 ---------- */
+const io = new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); } }),{threshold:.18});
+document.querySelectorAll(".rv").forEach(el=>io.observe(el));
+
+/* ---------- 彩蛋：长按照片 ---------- */
+(function(){
+  const f=$("#photoFrame"), s=$("#secret"); let hold=null;
+  const start=()=>{ clearTimeout(hold); hold=setTimeout(()=>{ s.classList.add("on"); if(navigator.vibrate) navigator.vibrate(18); }, 900); };
+  const end =()=> clearTimeout(hold);
+  f.addEventListener("touchstart",start,{passive:true});
+  f.addEventListener("mousedown",start);
+  f.addEventListener("touchend",end); f.addEventListener("touchcancel",end);
+  f.addEventListener("mouseup",end); f.addEventListener("mouseleave",end);
+})();
+
+/* ---------- 烟花 ---------- */
+const fxc = (function(){
+  const cv=$("#fx"), cx=cv.getContext("2d");
+  let W,H,P=[];
+  function size(){ const d=Math.min(devicePixelRatio,2); W=cv.width=innerWidth*d; H=cv.height=innerHeight*d; cx.setTransform(d,0,0,d,0,0); W=innerWidth; H=innerHeight; }
+  addEventListener("resize",size); size();
+  const COLORS=["#ffd79a","#7b5cff","#2ad4c8","#ff5f9e","#ffffff","#8fd3ff"];
+  function burst(x,y){
+    const col=COLORS[Math.floor(Math.random()*COLORS.length)], n=70+Math.random()*40;
+    for(let i=0;i<n;i++){
+      const a=Math.random()*Math.PI*2, sp=Math.random()*5.4+.6;
+      P.push({x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,life:1,d:Math.random()*.02+.012,
+        c: Math.random()>.72 ? "#ffffff" : col, s:Math.random()*2+.8});
+    }
+  }
+  function loop(){
+    cx.clearRect(0,0,W,H);
+    P=P.filter(p=>{
+      p.x+=p.vx; p.y+=p.vy; p.vy+=.045; p.vx*=.99; p.life-=p.d;
+      cx.globalAlpha=Math.max(0,p.life);
+      cx.fillStyle=p.c; cx.beginPath(); cx.arc(p.x,p.y,p.s,0,7); cx.fill();
+      return p.life>0;
+    });
+    cx.globalAlpha=1;
+    requestAnimationFrame(loop);
+  }
+  loop();
+  return {burst, at:(cx2,cy2)=>burst(cx2,cy2),
+    auto(){ burst(W*.5, H*.42); setTimeout(()=>burst(W*.24,H*.3),260); setTimeout(()=>burst(W*.78,H*.34),480); setTimeout(()=>burst(W*.5,H*.22),720); }};
+})();
+
+/* ---------- 音乐：Happy Birthday 小旋律（纯合成，无外部文件） ---------- */
+const audio = (function(){
+  let ctx=null, on=false, timer=null, step=0;
+  // 生日歌简谱（相对半音，C4=60）
+  const MELODY=[60,60,62,60,65,64, 60,60,62,60,67,65, 60,60,72,71,69,67, 65,64,62, 0,69,69,67,65,67,69, 0,65,65,64,62,64, 0];
+  const DUR =.28;
+  function ensure(){
+    if(!ctx){ const AC = window.AudioContext||window.webkitAudioContext; if(!AC) return null; ctx=new AC(); }
+    if(ctx.state==="suspended") ctx.resume();
+    return ctx;
+  }
+  function playNote(freq,at,dur){
+    const c=ensure(); if(!c) return;
+    const o=c.createOscillator(), g=c.createGain(), o2=c.createOscillator(), g2=c.createGain();
+    o.type="sine"; o.frequency.value=freq;
+    o2.type="sine"; o2.frequency.value=freq*2;
+    g.gain.setValueAtTime(0,at);
+    g.gain.linearRampToValueAtTime(.16,at+.04);
+    g.gain.exponentialRampToValueAtTime(.0008,at+dur*.95);
+    g2.gain.setValueAtTime(0,at);
+    g2.gain.linearRampToValueAtTime(.035,at+.03);
+    g2.gain.exponentialRampToValueAtTime(.0006,at+dur*.8);
+    o.connect(g).connect(c.destination); o2.connect(g2).connect(c.destination);
+    o.start(at); o.stop(at+dur); o2.start(at); o2.stop(at+dur);
+  }
+  function loop(){
+    if(!on) return;
+    const c=ensure(); if(!c) return;
+    const n = MELODY[step % MELODY.length];
+    if(n) playNote(440*Math.pow(2,(n-69)/12), c.currentTime+.02, DUR);
+    step++;
+    timer=setTimeout(loop, n? DUR*1000 : DUR*1.4);
+  }
+  return {
+    toggle(){
+      on=!on;
+      if(on){ step=0; loop(); } else { clearTimeout(timer); }
+      return on;
+    }
+  };
+})();
+
+/* ---------- 开场 ---------- */
+$("#openBtn").addEventListener("click", ()=>{
+  $("#gate").classList.add("gone");
+  setTimeout(()=>{ $("#main").style.opacity="1"; },120);
+  $("#music").classList.add("show");
+  audio.toggle();                      // 需要用户手势，浏览器才允许出声
+  setTimeout(()=>{ fxc.auto(); }, 1400);
+});
+
+$("#music").addEventListener("click", ()=>{
+  const on = audio.toggle();
+  $("#music").textContent = on ? "♫" : "♪";
+  $("#music").style.opacity = on ? "1" : ".55";
+});
+
+/* ---------- 许愿 ---------- */
+$("#wishBtn").addEventListener("click", function(){
+  this.disabled = true;
+  this.textContent = "愿 望 已 收 到";
+  $("#final").classList.add("in");
+  $("#final").classList.add("on");
+
+  let n=0;
+  const burstRound = ()=>{
+    fxc.burst(innerWidth*(.2+Math.random()*.6), innerHeight*(.2+Math.random()*.35));
+    if(++n < 7) setTimeout(burstRound, 340);
+    else setTimeout(()=>{ fxc.auto(); }, 200);
+  };
+  burstRound();
+});
+
+/* ---------- 点屏幕任意处放小烟花（开场后生效） ---------- */
+document.addEventListener("touchstart", e=>{
+  if($("#gate").classList.contains("gone") && e.target.closest("button")) return;
+  if(!$("#gate").classList.contains("gone")) return;
+  fxc.at(e.clientX||e.touches[0].clientX, e.clientY||e.touches[0].clientY);
+}, {passive:true});
+</script>
+</body>
+</html>
